@@ -23,6 +23,15 @@ const initializingDBAndServer = async () => {
 
 initializingDBAndServer()
 
+const convertDBObjectToResponseObject = dbObject => {
+  return {
+    playerId: dbObject.player_id,
+    playerName: dbObject.player_name,
+    jerseyNumber: dbObject.jersey_number,
+    role: dbObject.role,
+  }
+}
+
 app.get('/players/', async (request, response) => {
   const getPlayersQuery = `
         SELECT 
@@ -33,12 +42,15 @@ app.get('/players/', async (request, response) => {
         player_id
     `
   const playersList = await db.all(getPlayersQuery)
+  playersList.map(eachPlayer => {
+    convertDBObjectToResponseObject(eachPlayer)
+  })
   response.send(playersList)
 })
 
 app.post('/players/', async (request, response) => {
   const bodyDetails = request.body
-  const {playerName, jerseyNumber, role} = bodyDetails
+  const {player_name, jersey_number, role} = bodyDetails
   const postPlayerDetailsQuery = `
     INSERT INTO 
     cricket_team(player_name, jersey_number, role)
@@ -69,13 +81,13 @@ app.get('/players/:playerId', async (request, response) => {
 app.put('/players/:playerId/', async (request, response) => {
   const {playerId} = request.params
   const bodyDetails = request.body
-  const {playerName, jerseyNumber, role} = bodyDetails
+  const {player_name, jersey_number, role} = bodyDetails
   const updateQuery = `
     UPDATE 
     cricket_team
     SET 
-    player_name = ${playerName},
-    jersey_number = ${jerseyNumber},
+    player_name = ${player_name},
+    jersey_number = ${jersey_number},
     role = ${role}
     WHERE 
     player_id = ${playerId}
