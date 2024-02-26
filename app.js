@@ -42,10 +42,11 @@ app.get('/players/', async (request, response) => {
         player_id
     `
   const playersList = await db.all(getPlayersQuery)
-  playersList.map(eachPlayer => {
-    convertDBObjectToResponseObject(eachPlayer)
-  })
-  response.send(playersList)
+  response.send(
+    playersList.map(eachPlayer => {
+      convertDBObjectToResponseObject(eachPlayer)
+    }),
+  )
 })
 
 app.post('/players/', async (request, response) => {
