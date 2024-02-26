@@ -44,7 +44,7 @@ app.get('/players/', async (request, response) => {
   const playersList = await db.all(getPlayersQuery)
   response.send(
     playersList.map(eachPlayer => {
-      convertDBObjectToResponseObject(eachPlayer)
+      return convertDBObjectToResponseObject(eachPlayer)
     }),
   )
 })
@@ -76,7 +76,9 @@ app.get('/players/:playerId', async (request, response) => {
     player_id = ${playerId}
   `
   const dbResponse = await db.get(getPlayerQuery)
-  response.send(dbResponse)
+  response.send(
+    dbResponse.map(player => convertDBObjectToResponseObject(player)),
+  )
 })
 
 app.put('/players/:playerId/', async (request, response) => {
