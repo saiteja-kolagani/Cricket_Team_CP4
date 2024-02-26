@@ -5,6 +5,7 @@ const app = express()
 const path = require('path')
 const dbPath = path.join(__dirname, 'cricketTeam.db')
 let db = null
+express.json()
 
 const initializingDBAndServer = async () => {
   try {
