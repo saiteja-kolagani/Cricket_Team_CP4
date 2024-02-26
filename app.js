@@ -51,12 +51,12 @@ app.get('/players/', async (request, response) => {
 
 app.post('/players/', async (request, response) => {
   const bodyDetails = request.body
-  const {player_name, jersey_number, role} = bodyDetails
+  const {playerName, jerseyNumber, role} = bodyDetails
   const postPlayerDetailsQuery = `
     INSERT INTO 
     cricket_team(player_name, jersey_number, role)
-    VALUES(${player_name},
-       ${jersey_number},
+    VALUES(${playerName},
+       ${jerseyNumber},
         ${role}
     );
   `
@@ -82,13 +82,13 @@ app.get('/players/:playerId', async (request, response) => {
 app.put('/players/:playerId/', async (request, response) => {
   const {playerId} = request.params
   const bodyDetails = request.body
-  const {player_name, jersey_number, role} = bodyDetails
+  const {playerName, jerseyNumber, role} = bodyDetails
   const updateQuery = `
     UPDATE 
     cricket_team
     SET 
-    player_name = ${player_name},
-    jersey_number = ${jersey_number},
+    player_name = ${playerName},
+    jersey_number = ${jerseyNumber},
     role = ${role}
     WHERE 
     player_id = ${playerId}
