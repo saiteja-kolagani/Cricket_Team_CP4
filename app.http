@@ -12,6 +12,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/players/3/
+###
 
 PUT http://localhost:3000/players/1/
 Content-Type: application/json
