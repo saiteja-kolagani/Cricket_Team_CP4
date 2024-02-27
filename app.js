@@ -63,10 +63,10 @@ app.post('/players/', async (request, response) => {
     jerseyNumber,
     role,
   ])
-  reponse.send('Player Added to Team')
+  response.send('Player Added to Team')
 })
 
-app.get('/players/:playerId', async (request, response) => {
+app.get('/players/:playerId/', async (request, response) => {
   const {playerId} = request.params
   const getPlayerQuery = `
     SELECT 
