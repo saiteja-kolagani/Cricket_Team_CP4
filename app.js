@@ -5,7 +5,7 @@ const app = express()
 const path = require('path')
 const dbPath = path.join(__dirname, 'cricketTeam.db')
 let db = null
-express.json()
+app.use(express.json())
 
 const initializingDBAndServer = async () => {
   try {
@@ -56,13 +56,13 @@ app.post('/players/', async (request, response) => {
   const postPlayerDetailsQuery = `
     INSERT INTO 
     cricket_team(player_name, jersey_number, role)
-    VALUES(${playerName},
-       ${jerseyNumber},
-        ${role}
-    );
+    VALUES(?, ?, ?);
   `
-  const dbResponse = await db.run(postPlayerDetailsQuery)
-  const playerId = dbResponse.lastID
+  const dbResponse = await db.run(postPlayerDetailsQuery, [
+    playerName,
+    jerseyNumber,
+    role,
+  ])
   reponse.send('Player Added to Team')
 })
 
@@ -74,9 +74,9 @@ app.get('/players/:playerId', async (request, response) => {
     FROM 
     cricket_team
     WHERE 
-    player_id = ${playerId}
+    player_id = ?
   `
-  const dbResponse = await db.get(getPlayerQuery)
+  const dbResponse = await db.get(getPlayerQuery, [playerId])
   response.send(
     dbResponse.map(player => convertDBObjectToResponseObject(player)),
   )
