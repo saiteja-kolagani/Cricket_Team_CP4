@@ -76,9 +76,9 @@ app.get('/players/:playerId/', async (request, response) => {
     WHERE 
     player_id = ?
   `
-  const playerList = await db.get(getPlayerQuery, [playerId])
+  const playerList = await db.all(getPlayerQuery, [playerId])
   response.send(
-    playerList.forEach(player => {
+    playerList.map(player => {
       return convertDBObjectToResponseObject(player)
     }),
   )
